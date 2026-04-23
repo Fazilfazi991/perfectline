@@ -311,9 +311,7 @@ footer{background:#050505;padding:72px 80px 36px;border-top:1px solid rgba(255,2
 <section class="hero" id="hero">
 
   <div class="slide active" id="s0">
-    <video class="hero-video-bg" autoplay loop muted playsinline preload="auto">
-      <source src="assets/hero-video.mp4" type="video/mp4">
-    </video>
+    <video class="hero-video-bg" src="assets/hero-video.mp4" autoplay loop muted playsinline preload="auto"></video>
     <div class="hero-video-overlay"></div>
     <div class="slide-inner">
       <div class="slide-tag">Riyadh, KSA — Exhibition & Events</div>
@@ -327,9 +325,7 @@ footer{background:#050505;padding:72px 80px 36px;border-top:1px solid rgba(255,2
   </div>
 
   <div class="slide" id="s1">
-    <video class="hero-video-bg" autoplay loop muted playsinline preload="auto">
-      <source src="assets/hero-video-2.mp4" type="video/mp4">
-    </video>
+    <video class="hero-video-bg" src="assets/hero-video-2.mp4" autoplay loop muted playsinline preload="auto"></video>
     <div class="hero-video-overlay"></div>
     <div class="slide-inner">
       <div class="slide-tag">Custom Fabrication Studio</div>
@@ -820,11 +816,17 @@ const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.targe
 document.querySelectorAll('.reveal,.reveal-l,.reveal-r').forEach(el=>obs.observe(el));
 
 // Ensure videos play
-window.addEventListener('load', () => {
+const forcePlay = () => {
   document.querySelectorAll('video').forEach(v => {
-    v.play().catch(() => {});
+    v.play().then(() => {
+      v.style.opacity = '1';
+    }).catch(() => {
+      // Retry on user interaction if needed
+    });
   });
-});
+};
+window.addEventListener('load', forcePlay);
+document.addEventListener('click', forcePlay, {once: true});
 </script>
 </body>
 </html>
