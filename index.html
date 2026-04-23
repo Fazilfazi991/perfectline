@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Perfect Line — Exhibition · Events · Fitout · Display</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+body{background:#fff;color:#0a0a0a;font-family:'Jost',sans-serif;font-weight:300;overflow-x:hidden}
+
+:root{
+  --black:#0a0a0a;
+  --white:#ffffff;
+  --cream:#F7F4EF;
+  --stone:#EDEAE4;
+  --red:#E31E24;
+  --grey:#8a8a8a;
+  --lgrey:#d0ccc6;
+}
+
+/* ─── NAV ─── */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 48px;height:68px;
+  transition:background .4s, border-color .4s;
+  border-bottom:1px solid transparent;
+}
+.nav.light{background:rgba(255,255,255,0.95);border-color:rgba(0,0,0,0.06);backdrop-filter:blur(12px)}
+.nav.dark{background:rgba(10,10,10,0.92);border-color:rgba(255,255,255,0.06);backdrop-filter:blur(12px)}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-sq{width:30px;height:30px;background:var(--red);display:flex;align-items:center;justify-content:center;font-family:'Jost',sans-serif;font-weight:600;font-size:11px;color:#fff;letter-spacing:.05em}
+.logo-wm{display:flex;flex-direction:column;line-height:1}
+.logo-main{font-family:'Jost',sans-serif;font-weight:500;font-size:13px;letter-spacing:.18em;text-transform:uppercase}
+.logo-sub{font-size:8px;letter-spacing:.14em;text-transform:uppercase;margin-top:3px;opacity:.4}
+.nav.light .logo-main,.nav.light .logo-sub{color:var(--black)}
+.nav.dark .logo-main,.nav.dark .logo-sub{color:#fff}
+.nav-links{display:flex;gap:36px;list-style:none}
+.nav-links a{font-size:12px;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;font-weight:400;transition:opacity .2s}
+.nav.light .nav-links a{color:var(--black)}
+.nav.dark .nav-links a{color:rgba(255,255,255,.7)}
+.nav-links a:hover{opacity:1}
+.nav.light .nav-links a:hover{color:var(--red)}
+.nav.dark .nav-links a:hover{color:#fff}
+.nav-actions{display:flex;align-items:center;gap:16px}
+.nav-btn{font-family:'Jost',sans-serif;font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:9px 22px;border-radius:2px;cursor:pointer;font-weight:500;text-decoration:none;transition:all .2s;border:1px solid}
+.btn-red{background:var(--red);color:#fff;border-color:var(--red)}
+.btn-red:hover{background:#c5181d;border-color:#c5181d}
+.btn-outline-dark{background:transparent;color:var(--black);border-color:rgba(0,0,0,.25)}
+.btn-outline-dark:hover{border-color:var(--black)}
+.btn-outline-light{background:transparent;color:#fff;border-color:rgba(255,255,255,.3)}
+.btn-outline-light:hover{border-color:#fff}
+
+/* ─── HERO SLIDER ─── */
+.hero{position:relative;height:100vh;overflow:hidden;background:var(--black)}
+.hero-video-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+.hero-video-overlay{position:absolute;inset:0;z-index:2;background:linear-gradient(to right,rgba(0,0,0,.75) 0%,rgba(0,0,0,.3) 60%,rgba(0,0,0,.0) 100%)}
+.slide{position:absolute;inset:0;opacity:0;transition:opacity 1.4s cubic-bezier(.4,0,.2,1);z-index:1;pointer-events:none}
+.slide.active{opacity:1;z-index:2;pointer-events:auto}
+.slide-inner{position:relative;height:100%;display:flex;flex-direction:column;justify-content:center;padding:0 80px;max-width:760px;z-index:3}
+.slide-tag{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--red);margin-bottom:28px;font-weight:500;opacity:0;transform:translateY(16px);transition:opacity .8s .3s,transform .8s .3s}
+.slide.active .slide-tag{opacity:1;transform:none}
+.slide-h1{font-family:'Cormorant Garamond',serif;font-size:clamp(52px,7.5vw,96px);font-weight:300;line-height:1.0;color:#fff;letter-spacing:-.01em;margin-bottom:28px;opacity:0;transform:translateY(24px);transition:opacity .9s .45s,transform .9s .45s}
+.slide.active .slide-h1{opacity:1;transform:none}
+.slide-sub{font-size:14px;color:rgba(255,255,255,.55);line-height:1.75;max-width:440px;margin-bottom:44px;opacity:0;transform:translateY(16px);transition:opacity .7s .6s,transform .7s .6s;font-weight:300}
+.slide.active .slide-sub{opacity:1;transform:none}
+.slide-ctas{display:flex;gap:14px;opacity:0;transform:translateY(12px);transition:opacity .7s .75s,transform .7s .75s}
+.slide.active .slide-ctas{opacity:1;transform:none}
+
+/* hero bottom bar */
+.hero-bar{position:absolute;bottom:0;left:0;right:0;z-index:10;display:flex;align-items:stretch;border-top:1px solid rgba(255,255,255,.08)}
+.hbar-stat{flex:1;padding:22px 32px;border-right:1px solid rgba(255,255,255,.08);display:flex;flex-direction:column;gap:4px}
+.hbar-stat:last-child{border-right:none}
+.hbar-num{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:400;color:#fff;line-height:1}
+.hbar-lbl{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.38);font-weight:400}
+
+/* hero controls */
+.slide-nav{position:absolute;right:48px;top:50%;transform:translateY(-50%);z-index:10;display:flex;flex-direction:column;gap:6px}
+.sdot{width:2px;height:24px;background:rgba(255,255,255,.2);border:none;cursor:pointer;transition:background .3s,height .3s}
+.sdot.active{background:#fff;height:40px}
+.hero-arrows{position:absolute;bottom:120px;right:48px;z-index:10;display:flex;gap:8px}
+.harrow{width:44px;height:44px;border:1px solid rgba(255,255,255,.2);background:transparent;color:#fff;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;transition:border-color .2s,background .2s;border-radius:1px}
+.harrow:hover{border-color:rgba(255,255,255,.6);background:rgba(255,255,255,.07)}
+
+/* ─── MARQUEE ─── */
+.marquee-wrap{background:var(--red);padding:14px 0;overflow:hidden}
+.marquee-track{display:flex;gap:0;animation:marquee 20s linear infinite;width:max-content}
+.marquee-item{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#fff;font-weight:500;padding:0 40px;opacity:.9;white-space:nowrap}
+.marquee-item span{color:rgba(255,255,255,.4);margin-left:40px}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ─── SECTION STYLES ─── */
+.sec{padding:clamp(80px,10vw,140px) 80px}
+.sec-white{background:#fff}
+.sec-cream{background:var(--cream)}
+.sec-stone{background:var(--stone)}
+.sec-black{background:var(--black)}
+.eyebrow{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--red);font-weight:500;margin-bottom:18px}
+.eyebrow-grey{color:var(--grey)}
+.sec-title{font-family:'Cormorant Garamond',serif;font-weight:300;line-height:1.05;letter-spacing:-.01em}
+.t-dark{color:var(--black)}
+.t-light{color:#fff}
+.t-grey{color:var(--grey)}
+.t-red{color:var(--red)}
+
+/* ─── SERVICES ─── */
+.services-layout{display:grid;grid-template-columns:1fr 2fr;gap:80px;align-items:start}
+.services-left .sec-title{font-size:clamp(40px,5vw,68px)}
+.services-left p{font-size:14px;color:var(--grey);line-height:1.8;margin-top:24px;max-width:300px}
+.services-grid{display:flex;flex-direction:column;gap:0}
+.svc{padding:36px 0;border-bottom:1px solid rgba(0,0,0,.08);display:flex;align-items:flex-start;gap:40px;transition:background .2s}
+.svc:first-child{border-top:1px solid rgba(0,0,0,.08)}
+.svc:hover{padding-left:8px}
+.svc-num{font-family:'Cormorant Garamond',serif;font-size:13px;color:var(--lgrey);min-width:28px;margin-top:4px}
+.svc-body{flex:1}
+.svc-body h3{font-family:'Jost',sans-serif;font-size:17px;font-weight:500;letter-spacing:.02em;margin-bottom:10px;color:var(--black)}
+.svc-body p{font-size:13px;color:var(--grey);line-height:1.75}
+.svc-arrow{font-size:20px;color:var(--lgrey);transition:color .2s,transform .2s;margin-top:2px;flex-shrink:0}
+.svc:hover .svc-arrow{color:var(--red);transform:translateX(4px)}
+
+/* ─── GALLERY ─── */
+.gallery-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:24px}
+.gallery-header .sec-title{font-size:clamp(38px,5vw,64px)}
+.view-link{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--black);text-decoration:none;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--black);padding-bottom:2px;transition:color .2s,border-color .2s}
+.view-link:hover{color:var(--red);border-color:var(--red)}
+.gal-filters{display:flex;gap:12px;margin-bottom:32px;overflow-x:auto;padding-bottom:8px;scrollbar-width:none}
+.gal-filters::-webkit-scrollbar{display:none}
+.gal-filter{background:transparent;border:1px solid rgba(0,0,0,0.1);border-radius:20px;padding:6px 16px;font-family:'Jost',sans-serif;font-size:12px;letter-spacing:0.05em;text-transform:uppercase;cursor:pointer;color:var(--grey);transition:all 0.2s}
+.gal-filter:hover{border-color:var(--black);color:var(--black)}
+.gal-filter.active{background:var(--black);color:#fff;border-color:var(--black)}
+/* Editorial masonry */
+.gal-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr;grid-template-rows:400px 320px;gap:3px;transition:all 0.3s}
+.gal-item{overflow:hidden;position:relative;cursor:pointer;background:var(--stone);transition:opacity 0.3s}
+.gal-item.hidden{display:none}
+.gal-item:nth-child(1){grid-row:1/3}
+.gal-img{width:100%;height:100%;object-fit:cover;transition:transform .7s cubic-bezier(.4,0,.2,1)}
+.gal-item:hover .gal-img{transform:scale(1.05)}
+.gal-overlay{position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.7) 0%,rgba(0,0,0,0) 55%);opacity:0;transition:opacity .4s}
+.gal-item:hover .gal-overlay{opacity:1}
+.gal-info{position:absolute;bottom:0;left:0;right:0;padding:24px 22px;transform:translateY(8px);opacity:0;transition:opacity .3s,transform .3s}
+.gal-item:hover .gal-info{opacity:1;transform:none}
+.gal-cat{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:6px}
+.gal-name{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:#fff}
+.gal-cta{display:inline-flex;align-items:center;gap:6px;margin-top:10px;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.7);border-bottom:1px solid rgba(255,255,255,.3);padding-bottom:1px}
+/* Below gallery: horizontal scroll strip */
+.strip-wrap{overflow-x:auto;padding:3px 0 0;scrollbar-width:none}
+.strip-wrap::-webkit-scrollbar{display:none}
+.gal-strip{display:flex;gap:3px;width:max-content}
+.strip-item{width:220px;height:200px;overflow:hidden;position:relative;flex-shrink:0;cursor:pointer;background:var(--stone)}
+.strip-img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+.strip-item:hover .strip-img{transform:scale(1.06)}
+.strip-label{position:absolute;bottom:12px;left:14px;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.7);background:rgba(0,0,0,.5);padding:4px 10px;backdrop-filter:blur(4px)}
+.add-pill{position:absolute;top:12px;right:12px;background:var(--red);color:#fff;border:none;width:32px;height:32px;border-radius:50%;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transform:scale(.8);transition:opacity .3s,transform .3s}
+.strip-item:hover .add-pill{opacity:1;transform:scale(1)}
+
+/* ─── FLOATING DRAWER ─── */
+.q-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:900;opacity:0;pointer-events:none;transition:opacity 0.3s;backdrop-filter:blur(4px)}
+.q-overlay.active{opacity:1;pointer-events:auto}
+.q-drawer{position:fixed;top:0;right:0;bottom:0;width:400px;max-width:100%;background:#111;z-index:1000;transform:translateX(100%);transition:transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);display:flex;flex-direction:column;border-left:1px solid rgba(255,255,255,0.08)}
+.q-drawer.active{transform:translateX(0)}
+.q-drawer-head{padding:24px;border-bottom:1px solid rgba(255,255,255,0.08);display:flex;justify-content:space-between;align-items:center}
+.q-drawer-title{font-size:14px;letter-spacing:0.1em;text-transform:uppercase;color:#fff;font-weight:500}
+.q-drawer-close{background:none;border:none;color:#fff;font-size:28px;cursor:pointer;line-height:1;transition:color 0.2s}
+.q-drawer-close:hover{color:var(--red)}
+.q-drawer-body{flex:1;overflow-y:auto;padding:0}
+.q-drawer-body::-webkit-scrollbar{width:6px}
+.q-drawer-body::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.2)}
+.q-empty{padding:40px 24px;font-size:13px;color:rgba(255,255,255,0.3);text-align:center}
+.q-item{display:flex;align-items:center;gap:16px;padding:16px 24px;border-bottom:1px solid rgba(255,255,255,0.04)}
+.q-thumb{width:60px;height:60px;object-fit:cover;background:rgba(255,255,255,0.05);border-radius:2px}
+.q-meta{flex:1}
+.q-iname{font-size:14px;color:#fff;font-weight:400;margin-bottom:4px}
+.q-iqty{font-size:12px;color:rgba(255,255,255,0.4)}
+.q-del{background:none;border:none;color:rgba(255,255,255,0.3);cursor:pointer;font-size:20px;transition:color 0.2s}
+.q-del:hover{color:var(--red)}
+.q-drawer-foot{padding:24px;border-top:1px solid rgba(255,255,255,0.08);background:#0a0a0a}
+.q-summary{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;font-size:13px;color:#fff;letter-spacing:0.05em;text-transform:uppercase}
+.wa-btn{width:100%;padding:16px;background:#25D366;color:#fff;border:none;border-radius:2px;font-family:'Jost',sans-serif;font-size:13px;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:background 0.2s;font-weight:500}
+.wa-btn:hover{background:#20bd5a}
+.q-fab{position:fixed;bottom:32px;right:32px;background:#fff;color:var(--black);border:1px solid rgba(0,0,0,0.1);height:56px;padding:0 24px;border-radius:28px;display:flex;align-items:center;gap:12px;cursor:pointer;z-index:800;box-shadow:0 8px 24px rgba(0,0,0,0.15);transition:transform 0.3s,box-shadow 0.3s;font-family:'Jost',sans-serif}
+.q-fab:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,0,0,0.2)}
+.q-fab-text{font-size:13px;font-weight:500;letter-spacing:0.05em;text-transform:uppercase}
+.q-fab-badge{background:var(--red);color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;display:none}
+
+/* ─── LOGISTICS ─── */
+.logistics-layout{display:grid;grid-template-columns:1fr 2fr;gap:100px;align-items:start}
+.steps{display:grid;grid-template-columns:1fr 1fr;gap:3px}
+.step{padding:40px 36px;background:#fff;position:relative;overflow:hidden}
+.step::after{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--red)}
+.step-n{font-family:'Cormorant Garamond',serif;font-size:48px;color:rgba(0,0,0,.06);line-height:1;margin-bottom:20px;font-weight:300}
+.step h4{font-family:'Jost',sans-serif;font-size:15px;font-weight:500;letter-spacing:.04em;margin-bottom:10px;color:var(--black)}
+.step p{font-size:13px;color:var(--grey);line-height:1.75}
+
+/* ─── STATS ─── */
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid rgba(255,255,255,.08);margin-top:60px}
+.stat{padding:60px 0;border-right:1px solid rgba(255,255,255,.08);text-align:center}
+.stat:last-child{border-right:none}
+.stat-n{font-family:'Cormorant Garamond',serif;font-size:clamp(60px,8vw,100px);color:#fff;line-height:1;font-weight:300}
+.stat-l{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-top:8px}
+
+/* client logos */
+.clients{margin-top:72px;border-top:1px solid rgba(255,255,255,.08);padding-top:48px}
+.clients-label{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.25);text-align:center;margin-bottom:36px}
+.logos-flex{display:flex;justify-content:center;gap:2px;flex-wrap:wrap}
+.cli-logo{height:48px;min-width:110px;padding:0 24px;border:1px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:center;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.2)}
+
+/* ─── FABRICATION ─── */
+.fab-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;margin-top:52px}
+.fab-item{position:relative;overflow:hidden;background:var(--stone)}
+.fab-img{width:100%;aspect-ratio:3/4;object-fit:cover;display:block;transition:transform .7s}
+.fab-item:hover .fab-img{transform:scale(1.06)}
+.fab-label{padding:20px 18px;background:#fff}
+.fab-label h4{font-family:'Jost',sans-serif;font-size:14px;font-weight:500;letter-spacing:.04em;margin-bottom:6px}
+.fab-label p{font-size:12px;color:var(--grey);line-height:1.6}
+
+/* ─── CTA ─── */
+.cta-banner{background:var(--black);padding:100px 80px;display:flex;justify-content:space-between;align-items:center;gap:60px}
+.cta-banner .sec-title{font-size:clamp(38px,5.5vw,72px);max-width:600px}
+.cta-right{display:flex;flex-direction:column;gap:16px;align-items:flex-start;flex-shrink:0}
+.cta-detail{font-size:12px;color:rgba(255,255,255,.3);letter-spacing:.06em;line-height:1.8}
+
+
+/* ─── FOOTER ─── */
+footer{background:#050505;padding:72px 80px 36px;border-top:1px solid rgba(255,255,255,.06)}
+.foot-top{display:grid;grid-template-columns:1.2fr 1fr 1fr 1.4fr;gap:60px;padding-bottom:60px;border-bottom:1px solid rgba(255,255,255,.06)}
+.foot-tagline{font-family:'Cormorant Garamond',serif;font-size:15px;color:rgba(255,255,255,.3);line-height:1.8;margin-top:20px;font-style:italic}
+.foot-col h5{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:22px;font-weight:500}
+.foot-col ul{list-style:none;display:flex;flex-direction:column;gap:12px}
+.foot-col a{font-size:13px;color:rgba(255,255,255,.45);text-decoration:none;letter-spacing:.04em;transition:color .2s}
+.foot-col a:hover{color:#fff}
+.foot-contact p{font-size:13px;color:rgba(255,255,255,.45);line-height:1.9;letter-spacing:.02em}
+.foot-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:28px;gap:24px}
+.foot-copy{font-size:11px;color:rgba(255,255,255,.2);letter-spacing:.06em}
+.foot-socials{display:flex;gap:10px}
+.soc{width:36px;height:36px;border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;text-decoration:none;transition:border-color .2s}
+.soc:hover{border-color:rgba(255,255,255,.35)}
+.soc svg{width:13px;height:13px;fill:rgba(255,255,255,.4);transition:fill .2s}
+.soc:hover svg{fill:#fff}
+
+/* ─── ANIMATIONS ─── */
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .8s ease,transform .8s ease}
+.reveal.in{opacity:1;transform:none}
+.reveal-l{opacity:0;transform:translateX(-24px);transition:opacity .8s ease,transform .8s ease}
+.reveal-l.in{opacity:1;transform:none}
+.reveal-r{opacity:0;transform:translateX(24px);transition:opacity .8s ease,transform .8s ease}
+.reveal-r.in{opacity:1;transform:none}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}
+
+@media(max-width:1024px){
+  .nav{padding:0 24px}
+  .nav-links{display:none}
+  .sec{padding:72px 24px}
+  .hero-bar{display:none}
+  .slide-inner{padding:0 32px}
+  .slide-nav,.hero-arrows{right:24px}
+  .services-layout,.split,.logistics-layout,.cta-banner,.foot-top{grid-template-columns:1fr}
+  .split-img{min-height:340px}
+  .split-content{padding:48px 32px}
+  .fab-grid{grid-template-columns:1fr 1fr}
+  .gal-grid{grid-template-columns:1fr 1fr;grid-template-rows:280px 280px 280px}
+  .gal-item:nth-child(1){grid-row:auto}
+  .stats-row{grid-template-columns:1fr}
+  .cta-banner{padding:60px 24px}
+  footer{padding:60px 24px 32px}
+}
+
+@media(max-width:768px){
+  .slide-h1{font-size:42px}
+  .slide-inner{padding:0 24px}
+  .hero-arrows{bottom:40px;right:24px}
+  .slide-nav{right:16px}
+  .q-drawer{width:100%}
+  .q-fab{bottom:24px;right:24px}
+  .sec-title{font-size:32px}
+  .services-left .sec-title{font-size:36px}
+  .gallery-header{flex-direction:column;align-items:flex-start;gap:16px}
+  .gal-grid{grid-template-columns:1fr;grid-template-rows:auto}
+  .gal-item{height:300px}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav dark" id="nav">
+  <a href="#" class="nav-logo">
+    <div class="logo-sq">PL</div>
+    <div class="logo-wm">
+      <span class="logo-main">Perfectline</span>
+      <span class="logo-sub">Riyadh · Est. 2017</span>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#inventory">Inventory</a></li>
+    <li><a href="#custom">Custom</a></li>
+    <li><a href="#logistics">Logistics</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="nav-actions">
+    <a href="#quote" class="nav-btn btn-red">Get Quote</a>
+    <a href="https://wa.me/966556823272" target="_blank" class="nav-btn btn-outline-light" id="nav-wa">WhatsApp</a>
+  </div>
+</nav>
+
+<!-- ═══ HERO SLIDER ═══ -->
+<section class="hero" id="hero">
+
+  <div class="slide active" id="s0">
+    <video class="hero-video-bg" src="assets/hero-video.mp4" poster="https://images.unsplash.com/photo-1511556532299-8f662fc26c06?w=900&q=80" autoplay loop muted playsinline></video>
+    <div class="hero-video-overlay"></div>
+    <div class="slide-inner">
+      <div class="slide-tag">Riyadh, KSA — Exhibition & Events</div>
+      <h1 class="slide-h1">Furniture that sets the stage.</h1>
+      <p class="slide-sub">Premium rental inventory, custom fabrication, and full-service logistics — delivered, installed, and collected across the Kingdom.</p>
+      <div class="slide-ctas">
+        <a href="#inventory" class="nav-btn btn-red">Browse Inventory</a>
+        <a href="https://wa.me/966556823272?text=Hi%20Perfect%20Line%2C%20I%27d%20like%20to%20enquire." target="_blank" class="nav-btn btn-outline-light">WhatsApp Enquiry</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide" id="s1">
+    <video class="hero-video-bg" src="assets/hero-video-2.mp4" poster="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=900&q=80" autoplay loop muted playsinline></video>
+    <div class="hero-video-overlay"></div>
+    <div class="slide-inner">
+      <div class="slide-tag">Custom Fabrication Studio</div>
+      <h1 class="slide-h1">Custom furniture.</h1>
+      <p class="slide-sub">From initial brief to on-site installation — furniture engineered for exhibition stands, corporate lounges, and immersive environments.</p>
+      <div class="slide-ctas">
+        <a href="#custom" class="nav-btn btn-red">View Fabrication</a>
+        <a href="#contact" class="nav-btn btn-outline-light">Start a Brief</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide" id="s2">
+    <video class="hero-video-bg" src="assets/hero-video.mp4" poster="https://images.unsplash.com/photo-1511556532299-8f662fc26c06?w=900&q=80" autoplay loop muted playsinline></video>
+    <div class="hero-video-overlay"></div>
+    <div class="slide-inner">
+      <div class="slide-tag">End-to-End Execution</div>
+      <h1 class="slide-h1">We handle everything.</h1>
+      <p class="slide-sub">Trusted by event agencies and brands across KSA since 2017. 500+ events executed. Zero missed deadlines.</p>
+      <div class="slide-ctas">
+        <a href="#logistics" class="nav-btn btn-red">Our Process</a>
+        <a href="#about" class="nav-btn btn-outline-light">Track Record</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide dots -->
+  <div class="slide-nav">
+    <button class="sdot active" onclick="go(0)"></button>
+    <button class="sdot" onclick="go(1)"></button>
+    <button class="sdot" onclick="go(2)"></button>
+  </div>
+
+  <!-- Arrows -->
+  <div class="hero-arrows">
+    <button class="harrow" onclick="prev()">&#8592;</button>
+    <button class="harrow" onclick="next()">&#8594;</button>
+  </div>
+
+  <!-- Stats bar -->
+  <div class="hero-bar">
+    <div class="hbar-stat">
+      <span class="hbar-num">500+</span>
+      <span class="hbar-lbl">Events Executed</span>
+    </div>
+    <div class="hbar-stat">
+      <span class="hbar-num">2,000+</span>
+      <span class="hbar-lbl">Inventory Pieces</span>
+    </div>
+    <div class="hbar-stat">
+      <span class="hbar-num">48hr</span>
+      <span class="hbar-lbl">Custom Turnaround</span>
+    </div>
+    <div class="hbar-stat">
+      <span class="hbar-num">KSA</span>
+      <span class="hbar-lbl">Nationwide Delivery</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ MARQUEE ═══ -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span class="marquee-item">Rental Inventory<span>·</span></span>
+    <span class="marquee-item">Custom Fabrication<span>·</span></span>
+    <span class="marquee-item">Exhibition Stands<span>·</span></span>
+    <span class="marquee-item">Corporate Events<span>·</span></span>
+    <span class="marquee-item">Delivery & Setup<span>·</span></span>
+    <span class="marquee-item">Riyadh KSA<span>·</span></span>
+    <span class="marquee-item">Rental Inventory<span>·</span></span>
+    <span class="marquee-item">Custom Fabrication<span>·</span></span>
+    <span class="marquee-item">Exhibition Stands<span>·</span></span>
+    <span class="marquee-item">Corporate Events<span>·</span></span>
+    <span class="marquee-item">Delivery & Setup<span>·</span></span>
+    <span class="marquee-item">Riyadh KSA<span>·</span></span>
+  </div>
+</div>
+
+<!-- ═══ SERVICES ═══ -->
+<section class="sec sec-white" id="about">
+  <div class="services-layout">
+    <div class="services-left reveal-l">
+      <div class="eyebrow eyebrow-grey">What We Do</div>
+      <h2 class="sec-title t-dark">More than furniture rental.</h2>
+      <p>We are Riyadh's trusted event furniture execution partner — from a single chair to a fully fitted exhibition hall.</p>
+    </div>
+    <div class="services-grid">
+      <div class="svc reveal d1">
+        <span class="svc-num">01</span>
+        <div class="svc-body">
+          <h3>Rental Inventory</h3>
+          <p>Curated sofas, chairs, tables, and bar stools for events of any scale. Reserve from our catalogue for your exact dates and venue.</p>
+        </div>
+        <span class="svc-arrow">→</span>
+      </div>
+      <div class="svc reveal d2">
+        <span class="svc-num">02</span>
+        <div class="svc-body">
+          <h3>Custom Fabrication</h3>
+          <p>Bespoke builds for exhibition stands and brand activations. Our studio engineers pieces from concept to on-site installation.</p>
+        </div>
+        <span class="svc-arrow">→</span>
+      </div>
+      <div class="svc reveal d3">
+        <span class="svc-num">03</span>
+        <div class="svc-body">
+          <h3>Logistics & Setup</h3>
+          <p>On-time transport across KSA. Professional crew installs and arranges to your floor plan. We collect after the event too.</p>
+        </div>
+        <span class="svc-arrow">→</span>
+      </div>
+      <div class="svc reveal d4">
+        <span class="svc-num">04</span>
+        <div class="svc-body">
+          <h3>Fitout & Display</h3>
+          <p>Permanent or temporary fitout solutions for showrooms, retail displays, and branded environments across the Kingdom.</p>
+        </div>
+        <span class="svc-arrow">→</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ GALLERY ═══ -->
+<section class="sec sec-cream" id="inventory" style="padding-bottom:24px">
+  <div class="gallery-header reveal">
+    <div>
+      <div class="eyebrow">The Collection</div>
+      <h2 class="sec-title t-dark">Selected inventory for hire.</h2>
+    </div>
+    <a href="#" class="view-link">View Full Catalogue →</a>
+  </div>
+
+  <div class="gal-filters reveal">
+    <button class="gal-filter active" onclick="filterGal('all')">All</button>
+    <button class="gal-filter" onclick="filterGal('sofas')">Sofas</button>
+    <button class="gal-filter" onclick="filterGal('chairs')">Chairs</button>
+    <button class="gal-filter" onclick="filterGal('tables')">Tables</button>
+  </div>
+
+  <!-- Main editorial grid -->
+  <div class="gal-grid reveal">
+    <div class="gal-item" data-category="sofas">
+      <img class="gal-img" src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=900&q=80" alt="Lounge Sofa">
+      <div class="gal-overlay"></div>
+      <div class="gal-info">
+        <div class="gal-cat">Sofas & Lounges</div>
+        <div class="gal-name">The Boucle Lounge</div>
+        <div class="gal-cta" onclick="addToQuote('Boucle Lounge Sofa','https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=80&q=60')">Add to Quote →</div>
+      </div>
+    </div>
+    <div class="gal-item" data-category="chairs">
+      <img class="gal-img" src="https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=600&q=80" alt="Chair">
+      <div class="gal-overlay"></div>
+      <div class="gal-info">
+        <div class="gal-cat">Event Chairs</div>
+        <div class="gal-name">Nordic Stack Chair</div>
+        <div class="gal-cta" onclick="addToQuote('Nordic Stack Chair','https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=80&q=60')">Add to Quote →</div>
+      </div>
+    </div>
+    <div class="gal-item" data-category="sofas">
+      <img class="gal-img" src="https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?w=600&q=80" alt="Interior">
+      <div class="gal-overlay"></div>
+      <div class="gal-info">
+        <div class="gal-cat">Exhibition Sets</div>
+        <div class="gal-name">Corporate Lounge Set</div>
+        <div class="gal-cta" onclick="addToQuote('Corporate Lounge Set','https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?w=80&q=60')">Add to Quote →</div>
+      </div>
+    </div>
+    <div class="gal-item" data-category="tables">
+      <img class="gal-img" src="https://images.unsplash.com/photo-1601628828688-632f38a5a7d0?w=600&q=80" alt="Table">
+      <div class="gal-overlay"></div>
+      <div class="gal-info">
+        <div class="gal-cat">Coffee & Side Tables</div>
+        <div class="gal-name">Marble Top Coffee Table</div>
+        <div class="gal-cta" onclick="addToQuote('Marble Coffee Table','https://images.unsplash.com/photo-1601628828688-632f38a5a7d0?w=80&q=60')">Add to Quote →</div>
+      </div>
+    </div>
+    <div class="gal-item" data-category="chairs">
+      <img class="gal-img" src="https://images.unsplash.com/photo-1503602642458-232111445657?w=600&q=80" alt="Bar Stool">
+      <div class="gal-overlay"></div>
+      <div class="gal-info">
+        <div class="gal-cat">Bar Stools</div>
+        <div class="gal-name">Metal Frame Bar Stool</div>
+        <div class="gal-cta" onclick="addToQuote('Metal Bar Stool','https://images.unsplash.com/photo-1503602642458-232111445657?w=80&q=60')">Add to Quote →</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Horizontal scroll strip -->
+  <div class="strip-wrap reveal" style="margin-top:3px">
+    <div class="gal-strip">
+      <div class="strip-item">
+        <img class="strip-img" src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400&q=75" alt="">
+        <div class="strip-label">Dining Chairs</div>
+        <button class="add-pill" onclick="addToQuote('Dining Chair','https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=80&q=60')">+</button>
+      </div>
+      <div class="strip-item">
+        <img class="strip-img" src="https://images.unsplash.com/photo-1592078615290-033ee584e267?w=400&q=75" alt="">
+        <div class="strip-label">Accent Chairs</div>
+        <button class="add-pill" onclick="addToQuote('Accent Chair','https://images.unsplash.com/photo-1592078615290-033ee584e267?w=80&q=60')">+</button>
+      </div>
+      <div class="strip-item">
+        <img class="strip-img" src="https://images.unsplash.com/photo-1540574163026-643ea20ade25?w=400&q=75" alt="">
+        <div class="strip-label">Exhibition Setups</div>
+        <button class="add-pill" onclick="addToQuote('Exhibition Setup','https://images.unsplash.com/photo-1540574163026-643ea20ade25?w=80&q=60')">+</button>
+      </div>
+      <div class="strip-item">
+        <img class="strip-img" src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&q=75" alt="">
+        <div class="strip-label">Poseur Tables</div>
+        <button class="add-pill" onclick="addToQuote('Poseur Table','https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=80&q=60')">+</button>
+      </div>
+      <div class="strip-item">
+        <img class="strip-img" src="https://images.unsplash.com/photo-1631679706909-1844bbd07221?w=400&q=75" alt="">
+        <div class="strip-label">Lounge Chairs</div>
+        <button class="add-pill" onclick="addToQuote('Lounge Chair','https://images.unsplash.com/photo-1631679706909-1844bbd07221?w=80&q=60')">+</button>
+      </div>
+      <div class="strip-item">
+        <img class="strip-img" src="https://images.unsplash.com/photo-1484101403633-562f891dc89a?w=400&q=75" alt="">
+        <div class="strip-label">Outdoor Furniture</div>
+        <button class="add-pill" onclick="addToQuote('Outdoor Furniture','https://images.unsplash.com/photo-1484101403633-562f891dc89a?w=80&q=60')">+</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FLOATING QUOTE DRAWER ═══ -->
+<div class="q-overlay" id="qOverlay" onclick="toggleQuote()"></div>
+<div class="q-drawer" id="qDrawer">
+  <div class="q-drawer-head">
+    <div class="q-drawer-title">Event Quote</div>
+    <button class="q-drawer-close" onclick="toggleQuote()">×</button>
+  </div>
+  <div class="q-drawer-body" id="qbody">
+    <div class="q-empty" id="qempty">Add items from the inventory</div>
+  </div>
+  <div class="q-drawer-foot">
+    <div class="q-summary">
+      <span>Total Items</span>
+      <span id="qcount">0</span>
+    </div>
+    <button class="wa-btn" onclick="sendWA()">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Send via WhatsApp
+    </button>
+  </div>
+</div>
+
+<!-- Floating Quote Button -->
+<button class="q-fab" onclick="toggleQuote()" id="qFab">
+  <span class="q-fab-icon">📋</span>
+  <span class="q-fab-text">Quote</span>
+  <span class="q-fab-badge" id="qBadge">0</span>
+</button>
+
+<!-- ═══ LOGISTICS ═══ -->
+<section class="sec sec-stone" id="logistics">
+  <div class="logistics-layout">
+    <div class="reveal-l">
+      <div class="eyebrow">How It Works</div>
+      <h2 class="sec-title t-dark" style="font-size:clamp(38px,5vw,64px)">From warehouse to venue floor.</h2>
+      <p style="font-size:14px;color:var(--grey);line-height:1.8;margin-top:24px;max-width:280px">We handle every step of the logistics so your team can focus on running the event.</p>
+      <a href="https://wa.me/966556823272" target="_blank" class="nav-btn btn-red" style="display:inline-flex;margin-top:36px;text-decoration:none">Discuss Your Event</a>
+    </div>
+    <div class="steps reveal">
+      <div class="step d1">
+        <div class="step-n">01</div>
+        <h4>Reserve</h4>
+        <p>Select your items, confirm event dates, venue address, and quantities with our team via WhatsApp or phone.</p>
+      </div>
+      <div class="step d2">
+        <div class="step-n">02</div>
+        <h4>Deliver</h4>
+        <p>On-schedule transport to your venue. We operate from Riyadh and deliver anywhere across KSA.</p>
+      </div>
+      <div class="step d3">
+        <div class="step-n">03</div>
+        <h4>Install</h4>
+        <p>Professional crew sets up and arranges furniture exactly to your floor plan. No extra coordination needed.</p>
+      </div>
+      <div class="step d4">
+        <div class="step-n">04</div>
+        <h4>Collect</h4>
+        <p>Post-event breakdown and return handled by our team. You wrap up — we handle the rest.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CUSTOM FABRICATION ═══ -->
+<section class="sec sec-white" id="custom">
+  <div class="reveal">
+    <div class="eyebrow eyebrow-grey">Custom Fabrication</div>
+    <h2 class="sec-title t-dark" style="font-size:clamp(38px,5.5vw,68px);max-width:700px">Built exactly the way your brand demands.</h2>
+  </div>
+  <div class="fab-grid reveal">
+    <div class="fab-item">
+      <img class="fab-img" src="https://images.unsplash.com/photo-1631679706909-1844bbd07221?w=500&q=80" alt="Exhibition Stand">
+      <div class="fab-label"><h4>Exhibition Stands</h4><p>Custom-built pieces matching your brand identity precisely.</p></div>
+    </div>
+    <div class="fab-item">
+      <img class="fab-img" src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=500&q=80" alt="Corporate Lounge">
+      <div class="fab-label"><h4>Corporate Lounges</h4><p>Premium seating environments for high-end corporate events.</p></div>
+    </div>
+    <div class="fab-item">
+      <img class="fab-img" src="https://images.unsplash.com/photo-1551298370-9d3d53740c72?w=500&q=80" alt="Brand Activation">
+      <div class="fab-label"><h4>Brand Activations</h4><p>Unique builds that make your brand space unforgettable.</p></div>
+    </div>
+    <div class="fab-item">
+      <img class="fab-img" src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=500&q=80" alt="Fitout">
+      <div class="fab-label"><h4>Fitout & Display</h4><p>Showroom and retail display solutions across KSA.</p></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ STATS ═══ -->
+<section class="sec sec-black" id="about" style="padding-bottom:0">
+  <div class="reveal" style="text-align:center">
+    <div class="eyebrow" style="text-align:center">Track Record</div>
+    <h2 class="sec-title t-light" style="font-size:clamp(38px,5.5vw,68px);text-align:center;max-width:none">Trusted across<br>the Kingdom.</h2>
+  </div>
+  <div class="stats-row reveal">
+    <div class="stat">
+      <div class="stat-n">500<span style="color:var(--red)">+</span></div>
+      <div class="stat-l">Events Executed</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n">2,000<span style="color:var(--red)">+</span></div>
+      <div class="stat-l">Inventory Pieces</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n">48<span style="font-size:.5em;color:var(--red)">hr</span></div>
+      <div class="stat-l">Custom Turnaround</div>
+    </div>
+  </div>
+  <div class="clients reveal">
+    <div class="clients-label">Trusted by agencies & brands across KSA</div>
+    <div class="logos-flex">
+      <div class="cli-logo">Client A</div>
+      <div class="cli-logo">Client B</div>
+      <div class="cli-logo">Client C</div>
+      <div class="cli-logo">Client D</div>
+      <div class="cli-logo">Client E</div>
+      <div class="cli-logo">Client F</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CTA ═══ -->
+<div class="cta-banner" id="contact">
+  <div class="reveal-l">
+    <h2 class="sec-title t-light">Ready to furnish your next event?</h2>
+    <p style="font-size:14px;color:rgba(255,255,255,.4);margin-top:16px;line-height:1.8">Talk to our team in Riyadh. We reply on WhatsApp within minutes.</p>
+  </div>
+  <div class="cta-right reveal-r">
+    <a href="https://wa.me/966556823272?text=Hi%20Perfect%20Line%2C%20I%27d%20like%20to%20discuss%20furniture%20for%20an%20upcoming%20event." target="_blank" class="nav-btn btn-red" style="font-size:13px;padding:14px 36px;text-decoration:none;display:inline-flex;align-items:center;gap:10px">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Chat on WhatsApp
+    </a>
+    <div class="cta-detail">
+      +966 55 682 3272<br>
+      info@perfectlineksa.com<br>
+      Al Mashael, Istanbul St, Exit 18, Riyadh
+    </div>
+  </div>
+</div>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="foot-top">
+    <div>
+      <a href="#" class="nav-logo" style="display:inline-flex">
+        <div class="logo-sq">PL</div>
+        <div class="logo-wm">
+          <span class="logo-main" style="color:#fff">Perfectline</span>
+          <span class="logo-sub" style="color:rgba(255,255,255,.3)">Est. 2017</span>
+        </div>
+      </a>
+      <p class="foot-tagline">Exhibition · Events<br>Fitout · Display</p>
+    </div>
+    <div class="foot-col">
+      <h5>Inventory</h5>
+      <ul>
+        <li><a href="#">Sofas & Lounges</a></li>
+        <li><a href="#">Event Chairs</a></li>
+        <li><a href="#">Tables</a></li>
+        <li><a href="#">Bar Stools</a></li>
+        <li><a href="#">Full Catalogue</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h5>Services</h5>
+      <ul>
+        <li><a href="#">Custom Fabrication</a></li>
+        <li><a href="#">Logistics & Setup</a></li>
+        <li><a href="#">Fitout & Display</a></li>
+        <li><a href="#">Get a Quote</a></li>
+      </ul>
+    </div>
+    <div class="foot-col foot-contact">
+      <h5>Contact</h5>
+      <p>+966 55 682 3272</p>
+      <p>info@perfectlineksa.com</p>
+      <p>Al Mashael, Istanbul Street,<br>Exit 18, Riyadh 14327, KSA</p>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <div class="foot-copy">© 2026 Perfect Line Furniture. All rights reserved.</div>
+    <div class="foot-socials">
+      <a href="#" class="soc"><svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+      <a href="#" class="soc"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+      <a href="https://wa.me/966556823272" class="soc"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ── SLIDER ──
+let cur=0,tot=3,timer;
+function go(n){
+  document.querySelectorAll('.slide').forEach((s,i)=>s.classList.toggle('active',i===n));
+  document.querySelectorAll('.sdot').forEach((d,i)=>d.classList.toggle('active',i===n));
+  cur=n;
+}
+function next(){go((cur+1)%tot);reset()}
+function prev(){go((cur-1+tot)%tot);reset()}
+function reset(){clearInterval(timer);timer=setInterval(next,6000)}
+timer=setInterval(next,6000);
+
+// ── NAV STYLE ──
+const nav=document.getElementById('nav');
+const navWa=document.getElementById('nav-wa');
+window.addEventListener('scroll',()=>{
+  const hero=document.getElementById('hero');
+  const past=window.scrollY>hero.offsetHeight-80;
+  nav.className='nav '+(past?'light':'dark');
+  navWa.className='nav-btn '+(past?'btn-outline-dark':'btn-outline-light');
+});
+
+// ── QUOTE ──
+const items=[];
+function toggleQuote(){
+  document.getElementById('qDrawer').classList.toggle('active');
+  document.getElementById('qOverlay').classList.toggle('active');
+}
+function addToQuote(name,img){
+  const ex=items.find(i=>i.name===name);
+  if(ex){ex.qty++}else{items.push({name,img,qty:1})}
+  render();
+  document.getElementById('qDrawer').classList.add('active');
+  document.getElementById('qOverlay').classList.add('active');
+}
+function removeItem(i){items.splice(i,1);render()}
+function render(){
+  const body=document.getElementById('qbody');
+  const count=document.getElementById('qcount');
+  const badge=document.getElementById('qBadge');
+  const tot=items.reduce((a,b)=>a+b.qty,0);
+  count.textContent=tot;
+  badge.textContent=tot;
+  if(tot > 0) { badge.style.display = 'flex'; } else { badge.style.display = 'none'; }
+  if(!items.length){
+    body.innerHTML='<div class="q-empty" id="qempty">Add items from the inventory</div>';
+    return;
+  }
+  body.innerHTML=items.map((it,i)=>`
+    <div class="q-item">
+      <img class="q-thumb" src="${it.img}" alt="${it.name}">
+      <div class="q-meta">
+        <div class="q-iname">${it.name}</div>
+        <div class="q-iqty">Qty: ${it.qty}</div>
+      </div>
+      <button class="q-del" onclick="removeItem(${i})">×</button>
+    </div>`).join('');
+}
+function sendWA(){
+  if(!items.length){alert('Please add items to your quote first.');return}
+  const lines=items.map(i=>`• ${i.name} (x${i.qty})`).join('%0A');
+  const msg=`Hi Perfect Line,%0A%0AQuote request:%0A%0A${lines}%0A%0APlease confirm availability and delivery cost.`;
+  window.open(`https://wa.me/966556823272?text=${msg}`,'_blank');
+}
+
+function filterGal(cat) {
+  document.querySelectorAll('.gal-filter').forEach(b => {
+    b.classList.toggle('active', b.innerText.toLowerCase() === cat.toLowerCase() || (cat==='all' && b.innerText==='All'));
+  });
+  document.querySelectorAll('.gal-item').forEach(el => {
+    if(cat === 'all' || el.dataset.category === cat) {
+      el.style.display = 'block';
+      setTimeout(()=> el.style.opacity = '1', 50);
+    } else {
+      el.style.opacity = '0';
+      setTimeout(()=> el.style.display = 'none', 300);
+    }
+  });
+}
+
+
+// ── SCROLL REVEALS ──
+const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('in')})},{threshold:.12});
+document.querySelectorAll('.reveal,.reveal-l,.reveal-r').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
