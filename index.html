@@ -312,7 +312,7 @@ footer{background:#050505;padding:72px 80px 36px;border-top:1px solid rgba(255,2
 
   <div class="slide active" id="s0">
     <video class="hero-video-bg" autoplay loop muted playsinline preload="auto" poster="https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&q=80">
-      <source src="assets/hero-video-compressed.mp4" type="video/mp4">
+      <source src="assets/hero-video.mp4" type="video/mp4">
     </video>
     <div class="hero-video-overlay"></div>
     <div class="slide-inner">
@@ -342,27 +342,11 @@ footer{background:#050505;padding:72px 80px 36px;border-top:1px solid rgba(255,2
     </div>
   </div>
 
-  <div class="slide" id="s2">
-    <video class="hero-video-bg" autoplay loop muted playsinline preload="auto" poster="https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=1200&q=80">
-      <source src="assets/hero-video-compressed.mp4" type="video/mp4">
-    </video>
-    <div class="hero-video-overlay"></div>
-    <div class="slide-inner">
-      <div class="slide-tag">End-to-End Execution</div>
-      <h1 class="slide-h1">We handle everything.</h1>
-      <p class="slide-sub">Trusted by event agencies and brands across KSA since 2017. 500+ events executed. Zero missed deadlines.</p>
-      <div class="slide-ctas">
-        <a href="#logistics" class="nav-btn btn-red">Our Process</a>
-        <a href="#about" class="nav-btn btn-outline-light">Track Record</a>
-      </div>
-    </div>
-  </div>
 
   <!-- Slide dots -->
   <div class="slide-nav">
     <button class="sdot active" onclick="go(0)"></button>
     <button class="sdot" onclick="go(1)"></button>
-    <button class="sdot" onclick="go(2)"></button>
   </div>
 
   <!-- Arrows -->
@@ -751,7 +735,7 @@ footer{background:#050505;padding:72px 80px 36px;border-top:1px solid rgba(255,2
 
 <script>
 // ── SLIDER ──
-let cur=0,tot=3,timer;
+let cur=0,tot=2,timer;
 function go(n){
   document.querySelectorAll('.slide').forEach((s,i)=>s.classList.toggle('active',i===n));
   document.querySelectorAll('.sdot').forEach((d,i)=>d.classList.toggle('active',i===n));
