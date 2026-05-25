@@ -59,6 +59,9 @@ body{background:#fff;color:#0a0a0a;font-family:'Jost',sans-serif;font-weight:300
 .hero-video-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1;background:#050505;opacity:0;transition:opacity 0.8s ease}
 .hero-video-overlay{position:absolute;inset:0;z-index:2;background:linear-gradient(to right,rgba(0,0,0,.75) 0%,rgba(0,0,0,.3) 60%,rgba(0,0,0,.0) 100%)}
 .slide{position:absolute;inset:0;opacity:0;transition:opacity 1.4s cubic-bezier(.4,0,.2,1);z-index:1;pointer-events:none}
+#s0{background:url("assets/hero-poster.jpg") center/cover no-repeat}
+#s1{background:url("assets/hero-poster-2.jpg") center/cover no-repeat}
+#s2{background:url("assets/hero-poster-3.jpg") center/cover no-repeat}
 .slide.active{opacity:1;z-index:2;pointer-events:auto}
 .slide-inner{position:relative;height:100%;display:flex;flex-direction:column;justify-content:center;padding:0 80px;max-width:760px;z-index:3}
 .slide-tag{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--red);margin-bottom:28px;font-weight:500;opacity:0;transform:translateY(16px);transition:opacity .8s .3s,transform .8s .3s}
@@ -156,6 +159,24 @@ body{background:#fff;color:#0a0a0a;font-family:'Jost',sans-serif;font-weight:300
 .add-pill{position:absolute;top:12px;right:12px;background:var(--red);color:#fff;border:none;width:32px;height:32px;border-radius:50%;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transform:scale(.8);transition:opacity .3s,transform .3s}
 .strip-item:hover .add-pill{opacity:1;transform:scale(1)}
 
+/* Rental furniture */
+.rental-layout{display:grid;grid-template-columns:.9fr 1.6fr;gap:64px;align-items:start}
+.rental-layout.reverse{grid-template-columns:1.6fr .9fr}
+.rental-copy{position:sticky;top:120px}
+.rental-copy .sec-title{font-size:clamp(38px,5vw,66px);max-width:520px}
+.rental-copy p{font-size:14px;color:var(--grey);line-height:1.8;max-width:390px;margin:24px 0 34px}
+.rental-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:3px}
+.rental-card{position:relative;min-height:320px;overflow:hidden;background:var(--stone);display:flex;align-items:flex-end}
+.rental-card.wide{grid-column:1/3;min-height:360px}
+.rental-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .7s cubic-bezier(.4,0,.2,1)}
+.rental-card:hover img{transform:scale(1.05)}
+.rental-card::after{content:'';position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.74),rgba(0,0,0,.06) 65%)}
+.rental-info{position:relative;z-index:2;padding:24px;color:#fff;display:flex;align-items:flex-end;justify-content:space-between;gap:20px;width:100%}
+.rental-info h3{font-family:'Cormorant Garamond',serif;font-size:clamp(26px,3vw,40px);font-weight:300;line-height:1;margin-bottom:8px}
+.rental-info p{font-size:12px;color:rgba(255,255,255,.58);line-height:1.65;max-width:300px}
+.rental-add{width:42px;height:42px;border-radius:50%;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.08);color:#fff;font-size:20px;cursor:pointer;flex-shrink:0;transition:background .2s,border-color .2s}
+.rental-add:hover{background:var(--red);border-color:var(--red)}
+
 /* ─── FLOATING DRAWER ─── */
 .q-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:900;opacity:0;pointer-events:none;transition:opacity 0.3s;backdrop-filter:blur(4px)}
 .q-overlay.active{opacity:1;pointer-events:auto}
@@ -208,13 +229,6 @@ body{background:#fff;color:#0a0a0a;font-family:'Jost',sans-serif;font-weight:300
 .cli-logo{height:48px;min-width:110px;padding:0 24px;border:1px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:center;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.2)}
 
 /* ─── FABRICATION ─── */
-.fab-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;margin-top:52px}
-.fab-item{position:relative;overflow:hidden;background:var(--stone)}
-.fab-img{width:100%;aspect-ratio:3/4;object-fit:cover;display:block;transition:transform .7s}
-.fab-item:hover .fab-img{transform:scale(1.06)}
-.fab-label{padding:20px 18px;background:#fff}
-.fab-label h4{font-family:'Jost',sans-serif;font-size:14px;font-weight:500;letter-spacing:.04em;margin-bottom:6px}
-.fab-label p{font-size:12px;color:var(--grey);line-height:1.6}
 
 /* ─── CTA ─── */
 .cta-banner{background:var(--black);padding:100px 80px;display:flex;justify-content:space-between;align-items:center;gap:60px}
@@ -256,10 +270,10 @@ footer{background:#050505;padding:72px 80px 36px;border-top:1px solid rgba(255,2
   .hero-bar{display:none}
   .slide-inner{padding:0 32px}
   .slide-nav,.hero-arrows{right:24px}
-  .services-layout,.split,.logistics-layout,.cta-banner,.foot-top{grid-template-columns:1fr}
+  .services-layout,.split,.logistics-layout,.cta-banner,.foot-top,.rental-layout{grid-template-columns:1fr}
+  .rental-copy{position:static}
   .split-img{min-height:340px}
   .split-content{padding:48px 32px}
-  .fab-grid{grid-template-columns:1fr 1fr}
   .gal-grid{grid-template-columns:1fr 1fr;grid-template-rows:280px 280px 280px}
   .gal-item:nth-child(1){grid-row:auto}
   .stats-row{grid-template-columns:1fr}
@@ -279,6 +293,9 @@ footer{background:#050505;padding:72px 80px 36px;border-top:1px solid rgba(255,2
   .gallery-header{flex-direction:column;align-items:flex-start;gap:16px}
   .gal-grid{grid-template-columns:1fr;grid-template-rows:auto}
   .gal-item{height:300px}
+  .rental-grid{grid-template-columns:1fr}
+  .rental-card,.rental-card.wide{grid-column:auto;min-height:300px}
+  .rental-info{align-items:flex-start;flex-direction:column}
   #nav-wa{display:none} /* Hide secondary WA button in nav on mobile to prevent overflow */
 }
 </style>
@@ -302,7 +319,7 @@ footer{background:#050505;padding:72px 80px 36px;border-top:1px solid rgba(255,2
     <li><a href="#contact">Contact</a></li>
   </ul>
   <div class="nav-actions">
-    <a href="#quote" class="nav-btn btn-red">Get Quote</a>
+    <button type="button" class="nav-btn btn-red" onclick="toggleQuote()">Get Quote</button>
     <a href="https://wa.me/966556823272" target="_blank" class="nav-btn btn-outline-light" id="nav-wa">WhatsApp</a>
   </div>
 </nav>
@@ -311,7 +328,7 @@ footer{background:#050505;padding:72px 80px 36px;border-top:1px solid rgba(255,2
 <section class="hero" id="hero">
 
   <div class="slide active" id="s0">
-    <video class="hero-video-bg" src="assets/hero-video_compressed.mp4" autoplay loop muted playsinline preload="auto"></video>
+    <video class="hero-video-bg" src="assets/hero-video_compressed.mp4" poster="assets/hero-poster.jpg" autoplay loop muted playsinline preload="auto"></video>
     <div class="hero-video-overlay"></div>
     <div class="slide-inner">
       <div class="slide-tag">Riyadh, KSA — Exhibition & Events</div>
@@ -325,7 +342,7 @@ footer{background:#050505;padding:72px 80px 36px;border-top:1px solid rgba(255,2
   </div>
 
   <div class="slide" id="s1">
-    <video class="hero-video-bg" src="assets/hero-video-2.mp4" autoplay loop muted playsinline preload="auto"></video>
+    <video class="hero-video-bg" src="assets/hero-video-2.mp4" poster="assets/hero-poster-2.jpg" autoplay loop muted playsinline preload="metadata"></video>
     <div class="hero-video-overlay"></div>
     <div class="slide-inner">
       <div class="slide-tag">Custom Fabrication Studio</div>
@@ -338,17 +355,32 @@ footer{background:#050505;padding:72px 80px 36px;border-top:1px solid rgba(255,2
     </div>
   </div>
 
+  <div class="slide" id="s2">
+    <video class="hero-video-bg" src="assets/hero-video-3.mp4" poster="assets/hero-poster-3.jpg" autoplay loop muted playsinline preload="metadata"></video>
+    <div class="hero-video-overlay"></div>
+    <div class="slide-inner">
+      <div class="slide-tag">Rental Furniture Collection</div>
+      <h1 class="slide-h1">Rental pieces, ready for every venue.</h1>
+      <p class="slide-sub">Curated sofas, chairs, tables, and lounge sets prepared for fast delivery, setup, and collection across Riyadh and KSA.</p>
+      <div class="slide-ctas">
+        <a href="#rental" class="nav-btn btn-red">Explore Rentals</a>
+        <button type="button" class="nav-btn btn-outline-light" onclick="toggleQuote()">Build a Quote</button>
+      </div>
+    </div>
+  </div>
+
 
   <!-- Slide dots -->
   <div class="slide-nav">
-    <button class="sdot active" onclick="go(0)"></button>
-    <button class="sdot" onclick="go(1)"></button>
+    <button type="button" class="sdot active" onclick="go(0)" aria-label="Show hero slide 1" aria-current="true"></button>
+    <button type="button" class="sdot" onclick="go(1)" aria-label="Show hero slide 2"></button>
+    <button type="button" class="sdot" onclick="go(2)" aria-label="Show hero slide 3"></button>
   </div>
 
   <!-- Arrows -->
   <div class="hero-arrows">
-    <button class="harrow" onclick="prev()">&#8592;</button>
-    <button class="harrow" onclick="next()">&#8594;</button>
+    <button type="button" class="harrow" onclick="prev()" aria-label="Previous hero slide">&#8592;</button>
+    <button type="button" class="harrow" onclick="next()" aria-label="Next hero slide">&#8594;</button>
   </div>
 
   <!-- Stats bar -->
@@ -390,51 +422,6 @@ footer{background:#050505;padding:72px 80px 36px;border-top:1px solid rgba(255,2
   </div>
 </div>
 
-<!-- ═══ SERVICES ═══ -->
-<section class="sec sec-white" id="about">
-  <div class="services-layout">
-    <div class="services-left reveal-l">
-      <div class="eyebrow eyebrow-grey">What We Do</div>
-      <h2 class="sec-title t-dark">More than furniture rental.</h2>
-      <p>We are Riyadh's trusted event furniture execution partner — from a single chair to a fully fitted exhibition hall.</p>
-    </div>
-    <div class="services-grid">
-      <div class="svc reveal d1">
-        <span class="svc-num">01</span>
-        <div class="svc-body">
-          <h3>Rental Inventory</h3>
-          <p>Curated sofas, chairs, tables, and bar stools for events of any scale. Reserve from our catalogue for your exact dates and venue.</p>
-        </div>
-        <span class="svc-arrow">→</span>
-      </div>
-      <div class="svc reveal d2">
-        <span class="svc-num">02</span>
-        <div class="svc-body">
-          <h3>Custom Fabrication</h3>
-          <p>Bespoke builds for exhibition stands and brand activations. Our studio engineers pieces from concept to on-site installation.</p>
-        </div>
-        <span class="svc-arrow">→</span>
-      </div>
-      <div class="svc reveal d3">
-        <span class="svc-num">03</span>
-        <div class="svc-body">
-          <h3>Logistics & Setup</h3>
-          <p>On-time transport across KSA. Professional crew installs and arranges to your floor plan. We collect after the event too.</p>
-        </div>
-        <span class="svc-arrow">→</span>
-      </div>
-      <div class="svc reveal d4">
-        <span class="svc-num">04</span>
-        <div class="svc-body">
-          <h3>Fitout & Display</h3>
-          <p>Permanent or temporary fitout solutions for showrooms, retail displays, and branded environments across the Kingdom.</p>
-        </div>
-        <span class="svc-arrow">→</span>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- ═══ GALLERY ═══ -->
 <section class="sec sec-cream" id="inventory" style="padding-bottom:24px">
   <div class="gallery-header reveal">
@@ -446,10 +433,10 @@ footer{background:#050505;padding:72px 80px 36px;border-top:1px solid rgba(255,2
   </div>
 
   <div class="gal-filters reveal">
-    <button class="gal-filter active" onclick="filterGal('all')">All</button>
-    <button class="gal-filter" onclick="filterGal('sofas')">Sofas</button>
-    <button class="gal-filter" onclick="filterGal('chairs')">Chairs</button>
-    <button class="gal-filter" onclick="filterGal('tables')">Tables</button>
+    <button type="button" class="gal-filter active" onclick="filterGal('all')">All</button>
+    <button type="button" class="gal-filter" onclick="filterGal('sofas')">Sofas</button>
+    <button type="button" class="gal-filter" onclick="filterGal('chairs')">Chairs</button>
+    <button type="button" class="gal-filter" onclick="filterGal('tables')">Tables</button>
   </div>
 
   <!-- Main editorial grid -->
@@ -507,43 +494,140 @@ footer{background:#050505;padding:72px 80px 36px;border-top:1px solid rgba(255,2
       <div class="strip-item">
         <img class="strip-img" src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400&q=75" alt="">
         <div class="strip-label">Dining Chairs</div>
-        <button class="add-pill" onclick="addToQuote('Dining Chair','https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=80&q=60')">+</button>
+        <button type="button" class="add-pill" onclick="addToQuote('Dining Chair','https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=80&q=60')" aria-label="Add Dining Chair to quote">+</button>
       </div>
       <div class="strip-item">
         <img class="strip-img" src="https://images.unsplash.com/photo-1592078615290-033ee584e267?w=400&q=75" alt="">
         <div class="strip-label">Accent Chairs</div>
-        <button class="add-pill" onclick="addToQuote('Accent Chair','https://images.unsplash.com/photo-1592078615290-033ee584e267?w=80&q=60')">+</button>
+        <button type="button" class="add-pill" onclick="addToQuote('Accent Chair','https://images.unsplash.com/photo-1592078615290-033ee584e267?w=80&q=60')" aria-label="Add Accent Chair to quote">+</button>
       </div>
       <div class="strip-item">
         <img class="strip-img" src="https://images.unsplash.com/photo-1540574163026-643ea20ade25?w=400&q=75" alt="">
         <div class="strip-label">Exhibition Setups</div>
-        <button class="add-pill" onclick="addToQuote('Exhibition Setup','https://images.unsplash.com/photo-1540574163026-643ea20ade25?w=80&q=60')">+</button>
+        <button type="button" class="add-pill" onclick="addToQuote('Exhibition Setup','https://images.unsplash.com/photo-1540574163026-643ea20ade25?w=80&q=60')" aria-label="Add Exhibition Setup to quote">+</button>
       </div>
       <div class="strip-item">
         <img class="strip-img" src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&q=75" alt="">
         <div class="strip-label">Poseur Tables</div>
-        <button class="add-pill" onclick="addToQuote('Poseur Table','https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=80&q=60')">+</button>
+        <button type="button" class="add-pill" onclick="addToQuote('Poseur Table','https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=80&q=60')" aria-label="Add Poseur Table to quote">+</button>
       </div>
       <div class="strip-item">
         <img class="strip-img" src="https://images.unsplash.com/photo-1631679706909-1844bbd07221?w=400&q=75" alt="">
         <div class="strip-label">Lounge Chairs</div>
-        <button class="add-pill" onclick="addToQuote('Lounge Chair','https://images.unsplash.com/photo-1631679706909-1844bbd07221?w=80&q=60')">+</button>
+        <button type="button" class="add-pill" onclick="addToQuote('Lounge Chair','https://images.unsplash.com/photo-1631679706909-1844bbd07221?w=80&q=60')" aria-label="Add Lounge Chair to quote">+</button>
       </div>
       <div class="strip-item">
         <img class="strip-img" src="https://images.unsplash.com/photo-1484101403633-562f891dc89a?w=400&q=75" alt="">
         <div class="strip-label">Outdoor Furniture</div>
-        <button class="add-pill" onclick="addToQuote('Outdoor Furniture','https://images.unsplash.com/photo-1484101403633-562f891dc89a?w=80&q=60')">+</button>
+        <button type="button" class="add-pill" onclick="addToQuote('Outdoor Furniture','https://images.unsplash.com/photo-1484101403633-562f891dc89a?w=80&q=60')" aria-label="Add Outdoor Furniture to quote">+</button>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ═══ FLOATING QUOTE DRAWER ═══ -->
+<!-- ═══ CUSTOM FABRICATION ═══ -->
+<section class="sec sec-white" id="custom">
+  <div class="rental-layout">
+    <div class="rental-copy reveal-l">
+      <div class="eyebrow eyebrow-grey">Custom Fabrication</div>
+      <h2 class="sec-title t-dark">Built exactly the way your brand demands.</h2>
+      <p>From counters and plinths to VIP lounges and display features, our fabrication team produces custom pieces for exhibitions, activations, showrooms, and branded environments.</p>
+      <button type="button" class="nav-btn btn-red" onclick="toggleQuote()">Start Custom Brief</button>
+    </div>
+
+    <div class="rental-grid reveal">
+      <article class="rental-card wide">
+        <img src="assets/hero-poster-2.jpg" alt="Custom exhibition furniture fabrication">
+        <div class="rental-info">
+          <div>
+            <h3>Exhibition Builds</h3>
+            <p>Reception counters, meeting pods, product plinths, and branded furniture made to match your stand design.</p>
+          </div>
+          <button type="button" class="rental-add" onclick="addToQuote('Custom Exhibition Build','assets/hero-poster-2.jpg')" aria-label="Add Custom Exhibition Build to quote">+</button>
+        </div>
+      </article>
+
+      <article class="rental-card">
+        <img src="assets/hero-poster-3.jpg" alt="Custom lounge and activation furniture">
+        <div class="rental-info">
+          <div>
+            <h3>Brand Activations</h3>
+            <p>Temporary furniture, display moments, and event features shaped around your campaign.</p>
+          </div>
+          <button type="button" class="rental-add" onclick="addToQuote('Custom Brand Activation','assets/hero-poster-3.jpg')" aria-label="Add Custom Brand Activation to quote">+</button>
+        </div>
+      </article>
+
+      <article class="rental-card">
+        <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=700&q=80" alt="Custom showroom fitout and display">
+        <div class="rental-info">
+          <div>
+            <h3>Fitout & Display</h3>
+            <p>Showroom and retail display solutions for permanent or temporary branded spaces.</p>
+          </div>
+          <button type="button" class="rental-add" onclick="addToQuote('Custom Fitout and Display','https://images.unsplash.com/photo-1497366216548-37526070297c?w=80&q=60')" aria-label="Add Custom Fitout and Display to quote">+</button>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- Rental Furniture -->
+<section class="sec sec-white" id="rental">
+  <div class="rental-layout reverse">
+    <div class="rental-grid reveal">
+      <article class="rental-card wide">
+        <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=1000&q=80" alt="Lounge sofa rental setup">
+        <div class="rental-info">
+          <div>
+            <h3>Lounge Sets</h3>
+            <p>Sofas, armchairs, coffee tables, and side tables for hospitality zones and VIP areas.</p>
+          </div>
+          <button type="button" class="rental-add" onclick="addToQuote('Rental Lounge Set','https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=80&q=60')" aria-label="Add Rental Lounge Set to quote">+</button>
+        </div>
+      </article>
+
+      <article class="rental-card">
+        <img src="https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=700&q=80" alt="Rental chairs for event seating">
+        <div class="rental-info">
+          <div>
+            <h3>Event Chairs</h3>
+            <p>Stackable seating, accent chairs, dining chairs, and booth-ready options.</p>
+          </div>
+          <button type="button" class="rental-add" onclick="addToQuote('Rental Event Chairs','https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=80&q=60')" aria-label="Add Rental Event Chairs to quote">+</button>
+        </div>
+      </article>
+
+      <article class="rental-card">
+        <img src="https://images.unsplash.com/photo-1601628828688-632f38a5a7d0?w=700&q=80" alt="Rental tables for event layouts">
+        <div class="rental-info">
+          <div>
+            <h3>Tables</h3>
+            <p>Coffee, dining, poseur, side, and display tables matched to your layout.</p>
+          </div>
+          <button type="button" class="rental-add" onclick="addToQuote('Rental Tables','https://images.unsplash.com/photo-1601628828688-632f38a5a7d0?w=80&q=60')" aria-label="Add Rental Tables to quote">+</button>
+        </div>
+      </article>
+    </div>
+
+    <div class="rental-copy reveal-r">
+      <div class="eyebrow eyebrow-grey">Rental Furniture</div>
+      <h2 class="sec-title t-dark">Event-ready furniture without the ownership burden.</h2>
+      <p>Choose from lounge seating, dining chairs, cafe tables, bar stools, and complete event sets. Our team prepares, delivers, installs, and collects every rental piece for exhibitions, activations, conferences, and private events.</p>
+      <button type="button" class="nav-btn btn-red" onclick="toggleQuote()">Start Rental Quote</button>
+    </div>
+  </div>
+</section>
+
+
+<!-- Floating Quote Drawer -->
 <div class="q-overlay" id="qOverlay" onclick="toggleQuote()"></div>
 <div class="q-drawer" id="qDrawer">
   <div class="q-drawer-head">
     <div class="q-drawer-title">Event Quote</div>
-    <button class="q-drawer-close" onclick="toggleQuote()">×</button>
+    <button type="button" class="q-drawer-close" onclick="toggleQuote()" aria-label="Close quote drawer">×</button>
   </div>
   <div class="q-drawer-body" id="qbody">
     <div class="q-empty" id="qempty">Add items from the inventory</div>
@@ -553,7 +637,7 @@ footer{background:#050505;padding:72px 80px 36px;border-top:1px solid rgba(255,2
       <span>Total Items</span>
       <span id="qcount">0</span>
     </div>
-    <button class="wa-btn" onclick="sendWA()">
+    <button type="button" class="wa-btn" onclick="sendWA()">
       <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
       Send via WhatsApp
     </button>
@@ -561,8 +645,8 @@ footer{background:#050505;padding:72px 80px 36px;border-top:1px solid rgba(255,2
 </div>
 
 <!-- Floating Quote Button -->
-<button class="q-fab" onclick="toggleQuote()" id="qFab">
-  <span class="q-fab-icon">📋</span>
+<button type="button" class="q-fab" onclick="toggleQuote()" id="qFab" aria-label="Open quote drawer">
+  <span class="q-fab-icon" aria-hidden="true">📋</span>
   <span class="q-fab-text">Quote</span>
   <span class="q-fab-badge" id="qBadge">0</span>
 </button>
@@ -601,35 +685,54 @@ footer{background:#050505;padding:72px 80px 36px;border-top:1px solid rgba(255,2
   </div>
 </section>
 
-<!-- ═══ CUSTOM FABRICATION ═══ -->
-<section class="sec sec-white" id="custom">
-  <div class="reveal">
-    <div class="eyebrow eyebrow-grey">Custom Fabrication</div>
-    <h2 class="sec-title t-dark" style="font-size:clamp(38px,5.5vw,68px);max-width:700px">Built exactly the way your brand demands.</h2>
-  </div>
-  <div class="fab-grid reveal">
-    <div class="fab-item">
-      <img class="fab-img" src="https://images.unsplash.com/photo-1631679706909-1844bbd07221?w=500&q=80" alt="Exhibition Stand">
-      <div class="fab-label"><h4>Exhibition Stands</h4><p>Custom-built pieces matching your brand identity precisely.</p></div>
+<!-- ═══ STATS ═══ -->
+<!-- ═══ SERVICES ═══ -->
+<section class="sec sec-white" id="about">
+  <div class="services-layout">
+    <div class="services-left reveal-l">
+      <div class="eyebrow eyebrow-grey">What We Do</div>
+      <h2 class="sec-title t-dark">More than furniture rental.</h2>
+      <p>We are Riyadh's trusted event furniture execution partner — from a single chair to a fully fitted exhibition hall.</p>
     </div>
-    <div class="fab-item">
-      <img class="fab-img" src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=500&q=80" alt="Corporate Lounge">
-      <div class="fab-label"><h4>Corporate Lounges</h4><p>Premium seating environments for high-end corporate events.</p></div>
-    </div>
-    <div class="fab-item">
-      <img class="fab-img" src="https://images.unsplash.com/photo-1551298370-9d3d53740c72?w=500&q=80" alt="Brand Activation">
-      <div class="fab-label"><h4>Brand Activations</h4><p>Unique builds that make your brand space unforgettable.</p></div>
-    </div>
-    <div class="fab-item">
-      <img class="fab-img" src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=500&q=80" alt="Fitout">
-      <div class="fab-label"><h4>Fitout & Display</h4><p>Showroom and retail display solutions across KSA.</p></div>
+    <div class="services-grid">
+      <div class="svc reveal d1">
+        <span class="svc-num">01</span>
+        <div class="svc-body">
+          <h3>Rental Inventory</h3>
+          <p>Curated sofas, chairs, tables, and bar stools for events of any scale. Reserve from our catalogue for your exact dates and venue.</p>
+        </div>
+        <span class="svc-arrow">→</span>
+      </div>
+      <div class="svc reveal d2">
+        <span class="svc-num">02</span>
+        <div class="svc-body">
+          <h3>Custom Fabrication</h3>
+          <p>Bespoke builds for exhibition stands and brand activations. Our studio engineers pieces from concept to on-site installation.</p>
+        </div>
+        <span class="svc-arrow">→</span>
+      </div>
+      <div class="svc reveal d3">
+        <span class="svc-num">03</span>
+        <div class="svc-body">
+          <h3>Logistics & Setup</h3>
+          <p>On-time transport across KSA. Professional crew installs and arranges to your floor plan. We collect after the event too.</p>
+        </div>
+        <span class="svc-arrow">→</span>
+      </div>
+      <div class="svc reveal d4">
+        <span class="svc-num">04</span>
+        <div class="svc-body">
+          <h3>Fitout & Display</h3>
+          <p>Permanent or temporary fitout solutions for showrooms, retail displays, and branded environments across the Kingdom.</p>
+        </div>
+        <span class="svc-arrow">→</span>
+      </div>
     </div>
   </div>
 </section>
 
 
-<!-- ═══ STATS ═══ -->
-<section class="sec sec-black" id="about" style="padding-bottom:0">
+<section class="sec sec-black" id="track-record" style="padding-bottom:0">
   <div class="reveal" style="text-align:center">
     <div class="eyebrow" style="text-align:center">Track Record</div>
     <h2 class="sec-title t-light" style="font-size:clamp(38px,5.5vw,68px);text-align:center;max-width:none">Trusted across<br>the Kingdom.</h2>
@@ -731,10 +834,14 @@ footer{background:#050505;padding:72px 80px 36px;border-top:1px solid rgba(255,2
 
 <script>
 // ── SLIDER ──
-let cur=0,tot=2,timer;
+let cur=0,tot=3,timer;
 function go(n){
   document.querySelectorAll('.slide').forEach((s,i)=>s.classList.toggle('active',i===n));
-  document.querySelectorAll('.sdot').forEach((d,i)=>d.classList.toggle('active',i===n));
+  document.querySelectorAll('.sdot').forEach((d,i)=>{
+    d.classList.toggle('active',i===n);
+    if(i===n) d.setAttribute('aria-current','true');
+    else d.removeAttribute('aria-current');
+  });
   cur=n;
 }
 function next(){go((cur+1)%tot);reset()}
@@ -785,7 +892,7 @@ function render(){
         <div class="q-iname">${it.name}</div>
         <div class="q-iqty">Qty: ${it.qty}</div>
       </div>
-      <button class="q-del" onclick="removeItem(${i})">×</button>
+      <button type="button" class="q-del" onclick="removeItem(${i})" aria-label="Remove ${it.name} from quote">×</button>
     </div>`).join('');
 }
 function sendWA(){
